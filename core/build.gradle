@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'maven-publish'
+apply plugin: "kotlinx-serialization"
+apply plugin: "de.jensklingenberg.ktorfit"
+apply plugin: "org.jetbrains.kotlin.plugin.serialization"
 
 android {
     namespace 'org.mifos.core'
@@ -68,8 +71,20 @@ dependencies {
     implementation "androidx.preference:preference-ktx:$preference"
 
     // fineractClient dependency
-    implementation ("com.github.openMF:fineract-client:$fineractClientVersion")
+    implementation ("com.github.openMF:fineract-client-cmp:0.0.1")
 
+    // Add Ktorfit
+    implementation "de.jensklingenberg.ktorfit:ktorfit-lib:2.1.0"
+
+    // Add Ktor dependencies
+    implementation "io.ktor:ktor-client-core:2.3.12"
+    implementation "io.ktor:ktor-client-cio:2.3.12"
+    implementation "io.ktor:ktor-client-logging:2.3.12"
+    implementation "io.ktor:ktor-client-auth:2.3.12"
+    implementation "io.ktor:ktor-network-tls-certificates:2.3.12"
+    implementation "io.ktor:ktor-client-content-negotiation:2.3.12"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:2.3.12"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 }
 
 publishing {

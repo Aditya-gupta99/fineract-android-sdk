@@ -1,12 +1,23 @@
 package org.mifos.core.apimanager
 
-import com.google.gson.Gson
-import org.apache.fineract.client.services.*
-import org.apache.fineract.client.util.FineractClient
-import org.mifos.core.apimanager.MifosOkHttpClient.mifosOkHttpClient
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import org.openapitools.client.apis.AuditsApi
+import org.openapitools.client.apis.AuthenticationHTTPBasicApi
+import org.openapitools.client.apis.CentersApi
+import org.openapitools.client.apis.ChargesApi
+import org.openapitools.client.apis.ClientApi
+import org.openapitools.client.apis.DataTablesApi
+import org.openapitools.client.apis.DocumentsApi
+import org.openapitools.client.apis.GroupsApi
+import org.openapitools.client.apis.LoanReschedulingApi
+import org.openapitools.client.apis.LoansApi
+import org.openapitools.client.apis.NotesApi
+import org.openapitools.client.apis.OfficesApi
+import org.openapitools.client.apis.RunReportsApi
+import org.openapitools.client.apis.SavingsAccountApi
+import org.openapitools.client.apis.SearchAPIApi
+import org.openapitools.client.apis.SpmSurveysApi
+import org.openapitools.client.apis.StaffApi
+import org.openapitools.client.infrastructure.FineractClient
 
 /**
  * Created by grandolf49 on 06-06-2020
@@ -17,18 +28,18 @@ class BaseApiManagerImpl : BaseApiManager {
 
     private lateinit var client: FineractClient
 
-    override fun createService(username: String, password: String, baseUrl: String, tenant: String, secured: Boolean) {
+    override fun createService(
+        username: String,
+        password: String,
+        baseUrl: String,
+        tenant: String,
+        secured: Boolean
+    ) {
         val builder = FineractClient.builder()
             .baseURL(baseUrl)
             .basicAuth(username, password)
+            .inSecure(!secured)
             .tenant(tenant)
-            .insecure(!secured)
-
-        builder.retrofitBuilder.addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .client(mifosOkHttpClient)
 
         client = builder.build()
     }
@@ -37,7 +48,7 @@ class BaseApiManagerImpl : BaseApiManager {
         return client
     }
 
-    override fun getAuthApi(): AuthenticationHttpBasicApi = client.authentication
+    override fun getAuthApi(): AuthenticationHTTPBasicApi = client.authentication
 
     override fun getCenterApi(): CentersApi = client.centers
 
@@ -49,17 +60,17 @@ class BaseApiManagerImpl : BaseApiManager {
 
     override fun getSavingsApi(): SavingsAccountApi = client.savingsAccounts
 
-    override fun getSearchApi(): SearchApiApi = client.search
+    override fun getSearchApi(): SearchAPIApi = client.search
 
     override fun getGroupApi(): GroupsApi = client.groups
 
-    override fun getDocumentApi(): DocumentsApiFixed = client.documents
+    override fun getDocumentApi(): DocumentsApi = client.documents
 
     override fun getOfficeApi(): OfficesApi = client.offices
 
     override fun getStaffApi(): StaffApi = client.staff
 
-    override fun getSurveyApi(): SpmSurveysApi = client.surveys
+    override fun getSurveyApi(): SpmSurveysApi = client.spmSurveys
 
     override fun getChargeApi(): ChargesApi = client.charges
 
