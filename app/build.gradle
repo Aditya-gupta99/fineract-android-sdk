@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: "kotlinx-serialization"
+apply plugin: "de.jensklingenberg.ktorfit"
+apply plugin: "org.jetbrains.kotlin.plugin.serialization"
 
 android {
     namespace 'org.mifos'
@@ -7,7 +10,6 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -28,7 +30,7 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/core_release.kotlin_module'
+        exclude 'META-INF/DEPENDENCIES'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -41,7 +43,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.multidex:multidex:$rootProject.multidexVersion"
+//    implementation "androidx.multidex:multidex:$rootProject.multidexVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     testImplementation "junit:junit:$rootProject.jUnitVersion"
@@ -72,5 +74,21 @@ dependencies {
     implementation project(':core')
 
     // fineract dependency
-    implementation ("com.github.openMF:fineract-client:$fineractClientVersion")
+    implementation ("com.github.openMF:fineract-client-cmp:0.0.1")
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.5"
+
+    // Add Ktorfit
+    implementation "de.jensklingenberg.ktorfit:ktorfit-lib:2.1.0"
+
+    // Add Ktor dependencies
+    implementation "io.ktor:ktor-client-core:2.3.12"
+    implementation "io.ktor:ktor-client-cio:2.3.12"
+    implementation "io.ktor:ktor-client-logging:2.3.12"
+    implementation "io.ktor:ktor-client-auth:2.3.12"
+    implementation "io.ktor:ktor-network-tls-certificates:2.3.12"
+    implementation "io.ktor:ktor-client-content-negotiation:2.3.12"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:2.3.12"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 }
